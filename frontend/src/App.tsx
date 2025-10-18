@@ -1,9 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
+// src/App.tsx
+import React, { useState } from 'react';
 import './App.css';
-import { ResumeData } from './types/resume';
+import { ResumeData, PersonalInfo, Education, Experience } from './types/resume';
+import PersonalInfoForm from './components/PersonalInfoForm';
 
-const InitialResumeData: ResumeData = {
+// Начальное состояние резюме
+const initialResumeData: ResumeData = {
   personalInfo: {
     firstName: "",
     lastName: "",
@@ -19,29 +21,248 @@ const InitialResumeData: ResumeData = {
   experience: [], 
   about: "",
   skills: []
-
-  
-}
+};
 
 function App() {
+  // Состояние резюме
+  const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
+  // Текущий этап формы
+  const [currentStep, setCurrentStep] = useState<number>(1);
+
+  // Функция для обновления данных
+  const updateResumeData = (newData: Partial<ResumeData>) => {
+    setResumeData(prev => ({
+      ...prev,
+      ...newData
+    }));
+  };
+
+  // Функция для отправки на сервер
+  const saveResume = async () => {
+    try {
+      console.log('Отправляем данные:', resumeData);
+      // Здесь будет реальный запрос на сервер
+      alert('Резюме успешно сохранено!');
+    } catch (error) {
+      alert('Ошибка при сохранении резюме');
+    }
+  };
+
   return (
-    <div className='App'>
-      <h1>Генератор резюме</h1>
-      <p>Создайте красивое резюме</p>
-      
-      <div className='container'>
-        <div className='form-section'>
-          <h2>Заполните информацию о себе</h2>
-          <p>Здесь скоро будет форма для ввода данных...</p>
+    <div className="App">
+      <header>
+        <h1>📄 Генератор резюме</h1>
+        <p>Заполните информацию шаг за шагом</p>
+      </header>
+
+      {/* Прогресс бар */}
+      <div className="progress-bar">
+        <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>1. Личная информация</div>
+        <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>2. Образование</div>
+        <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>3. Опыт работы</div>
+        <div className={`step ${currentStep >= 4 ? 'active' : ''}`}>4. О себе</div>
+        <div className={`step ${currentStep >= 5 ? 'active' : ''}`}>5. Навыки</div>
+      </div>
+
+      <div className="container">
+        {/* Левая часть - Форма */}
+        <div className="form-section">
+          {currentStep === 1 && (
+            <PersonalInfoForm 
+              data={resumeData.personalInfo}
+              onUpdate={(data: PersonalInfo) => updateResumeData({ personalInfo: data })}
+              onNext={() => setCurrentStep(2)}
+            />
+          )}
+          
+          {currentStep === 2 && (
+            <EducationForm 
+              data={resumeData.education}
+              onUpdate={(data: Education[]) => updateResumeData({ education: data })}
+              onNext={() => setCurrentStep(3)}
+              onBack={() => setCurrentStep(1)}
+            />
+          )}
+
+          {currentStep === 3 && (
+            <ExperienceForm 
+              data={resumeData.experience}
+              onUpdate={(data: Experience[]) => updateResumeData({ experience: data })}
+              onNext={() => setCurrentStep(4)}
+              onBack={() => setCurrentStep(2)}
+            />
+          )}
+
+          {currentStep === 4 && (
+            <AboutForm 
+              data={resumeData.about}
+              onUpdate={(data: string) => updateResumeData({ about: data })}
+              onNext={() => setCurrentStep(5)}
+              onBack={() => setCurrentStep(3)}
+            />
+          )}
+
+          {currentStep === 5 && (
+            <SkillsForm 
+              data={resumeData.skills}
+              onUpdate={(data: string[]) => updateResumeData({ skills: data })}
+              onBack={() => setCurrentStep(4)}
+              onSave={saveResume}
+            />
+          )}
         </div>
 
-        <div className='preview-section'>
+        {/* Правая часть - Предпросмотр */}
+        <div className="preview-section">
           <h2>Предпросмотр резюме</h2>
-          <p>Здесь будет отображаться ваше резюме...</p>
+          <ResumePreview data={resumeData} />
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+// Временные заглушки для остальных компонентов
+const EducationForm: React.FC<{
+  data: Education[];
+  onUpdate: (data: Education[]) => void;
+  onNext: () => void;
+  onBack: () => void;
+}> = ({ onNext, onBack }) => (
+  <div>
+    <h2>Образование</h2>
+    <p>Форма будет здесь...</p>
+    <div className="form-actions">
+      <button onClick={onBack}>← Назад</button>
+      <button onClick={onNext}>Далее → Опыт работы</button>
+    </div>
+  </div>
+);
+
+const ExperienceForm: React.FC<{
+  data: Experience[];
+  onUpdate: (data: Experience[]) => void;
+  onNext: () => void;
+  onBack: () => void;
+}> = ({ onNext, onBack }) => (
+  <div>
+    <h2>Опыт работы</h2>
+    <p>Форма будет здесь...</p>
+    <div className="form-actions">
+      <button onClick={onBack}>← Назад</button>
+      <button onClick={onNext}>Далее → О себе</button>
+    </div>
+  </div>
+);
+
+const AboutForm: React.FC<{
+  data: string;
+  onUpdate: (data: string) => void;
+  onNext: () => void;
+  onBack: () => void;
+}> = ({ onNext, onBack }) => (
+  <div>
+    <h2>О себе</h2>
+    <p>Расскажите о своих целях, увлечениях и сильных сторонах</p>
+    <div className="form-actions">
+      <button onClick={onBack}>← Назад</button>
+      <button onClick={onNext}>Далее → Навыки</button>
+    </div>
+  </div>
+);
+
+const SkillsForm: React.FC<{
+  data: string[];
+  onUpdate: (data: string[]) => void;
+  onBack: () => void;
+  onSave: () => void;
+}> = ({ onBack, onSave }) => (
+  <div>
+    <h2>Навыки</h2>
+    <p>Укажите ваши профессиональные навыки и компетенции</p>
+    <div className="form-actions">
+      <button onClick={onBack}>← Назад</button>
+      <button onClick={onSave} className="save-btn">Сохранить резюме</button>
+    </div>
+  </div>
+);
+
+const ResumePreview: React.FC<{ data: ResumeData }> = ({ data }) => (
+  <div className="resume-preview">
+    {/* Личная информация */}
+    <div className="preview-section">
+      <h3 className="preview-name">
+        {data.personalInfo.lastName || 'Фамилия'} {data.personalInfo.firstName || 'Имя'} {data.personalInfo.patronymic || ''}
+      </h3>
+      <div className="preview-contacts">
+        {data.personalInfo.email && <p>📧 {data.personalInfo.email}</p>}
+        {data.personalInfo.phoneNumber && <p>📱 {data.personalInfo.phoneNumber}</p>}
+        {data.personalInfo.socialNetworks && <p>🔗 {data.personalInfo.socialNetworks}</p>}
+        {data.personalInfo.citizenship && <p>🌍 {data.personalInfo.citizenship}</p>}
+      </div>
+    </div>
+
+    {/* Образование */}
+    {data.education.length > 0 && (
+      <div className="preview-section">
+        <h4>🎓 Образование</h4>
+        {data.education.map((edu, index) => (
+          <div key={index} className="preview-item">
+            <strong>{edu.institution || 'Учебное заведение'}</strong>
+            <p>{edu.degree || 'Степень'} - {edu.specialty || 'Специальность'}</p>
+            <p>{edu.year || 'Год'}</p>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {/* Опыт работы */}
+    {data.experience.length > 0 && (
+      <div className="preview-section">
+        <h4>💼 Опыт работы</h4>
+        {data.experience.map((exp, index) => (
+          <div key={index} className="preview-item">
+            <strong>{exp.company || 'Компания'}</strong>
+            <p>{exp.position || 'Должность'}</p>
+            <p>{exp.startDate || 'Начало'} - {exp.endDate || 'Окончание'}</p>
+            {exp.description && <p>{exp.description}</p>}
+          </div>
+        ))}
+      </div>
+    )}
+
+    {/* О себе */}
+    {data.about && (
+      <div className="preview-section">
+        <h4>👤 О себе</h4>
+        <p>{data.about}</p>
+      </div>
+    )}
+
+    {/* Навыки */}
+    {data.skills.length > 0 && (
+      <div className="preview-section">
+        <h4>🛠️ Навыки</h4>
+        <div className="skills-list">
+          {data.skills.map((skill, index) => (
+            <span key={index} className="skill-tag">{skill}</span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {/* Сообщение если резюме пустое */}
+    {!data.personalInfo.firstName && 
+     !data.personalInfo.lastName && 
+     data.education.length === 0 && 
+     data.experience.length === 0 && 
+     !data.about && 
+     data.skills.length === 0 && (
+      <div className="preview-empty">
+        <p>Заполните форму слева, чтобы увидеть предпросмотр резюме</p>
+      </div>
+    )}
+  </div>
+);
 
 export default App;
