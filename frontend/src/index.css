@@ -5,7 +5,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+    background-image: 
+    linear-gradient(rgba(48, 42, 31, 0.534), rgba(255, 255, 255, 0.3)),
+    url('back.jpg');
+  background-size: cover; /* Ключевое свойство! Растягивает изображение, чтобы оно покрыло всю область */
+  background-position: center; /* Выравнивает изображение по центру */
+  background-repeat: no-repeat; /* Запрещает повторение изображения */
+  background-attachment: fixed; /* Делает фон фиксированным при прокрутке (по желанию) */
 }
+
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

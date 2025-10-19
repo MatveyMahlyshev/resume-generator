@@ -28,7 +28,7 @@ const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
 
   return (
     <form onSubmit={handleSubmit} className="personal-info-form">
-      <h2>1. Личная информация</h2>
+      <h2>Личная информация</h2>
       
       <div className="form-group">
         <label htmlFor="firstName">Имя *</label>
