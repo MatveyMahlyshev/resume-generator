@@ -11,11 +11,12 @@ export interface PersonalInfo {
 }
 
 export interface Education {
-  id: string;
   institution: string;
-  degree: string;
-  year: string;
   specialty: string;
+  degree: string;
+  yearOfBeginning: string;
+  yearOfEnding: string
+  
 }
 
 export interface Experience {
@@ -30,7 +31,7 @@ export interface Experience {
 
 export interface ResumeData {
     personalInfo: PersonalInfo;
-    education: Education[];
+    education: Education;
     experience: Experience[];
     about: string,
     skills: string[];

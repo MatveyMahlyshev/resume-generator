@@ -137,7 +137,7 @@ const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
 
       <div className="form-actions">
         <button type="submit" className="next-btn">
-          Далее → Образование
+          Далее
         </button>
       </div>
 

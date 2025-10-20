@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { ResumeData, PersonalInfo, Education, Experience } from './types/resume';
 import PersonalInfoForm from './components/PersonalInfoForm';
-
+import EducationInfoForm from './components/EducationInfoForm';
 // Начальное состояние резюме
 const initialResumeData: ResumeData = {
   personalInfo: {
@@ -17,7 +17,13 @@ const initialResumeData: ResumeData = {
     sex: "",
     citizenship: ""
   },
-  education: [],
+  education: {
+    institution: "",
+    specialty: "",
+    degree: "",
+    yearOfBeginning: "",
+    yearOfEnding: "",
+  },
   experience: [], 
   about: "",
   skills: []
@@ -52,10 +58,7 @@ function App() {
     <div className="App">
       <header>
       </header>
-
-
       <div className="container">
-        
         <div className="form-section">
           <h1>Создатель резюме</h1>
           {currentStep === 1 && (
@@ -67,9 +70,9 @@ function App() {
           )}
           
           {currentStep === 2 && (
-            <EducationForm 
+            <EducationInfoForm 
               data={resumeData.education}
-              onUpdate={(data: Education[]) => updateResumeData({ education: data })}
+              onUpdate={(data: Education) => updateResumeData({ education: data })}
               onNext={() => setCurrentStep(3)}
               onBack={() => setCurrentStep(1)}
             />
@@ -108,22 +111,6 @@ function App() {
   );
 }
 
-// Временные заглушки для остальных компонентов
-const EducationForm: React.FC<{
-  data: Education[];
-  onUpdate: (data: Education[]) => void;
-  onNext: () => void;
-  onBack: () => void;
-}> = ({ onNext, onBack }) => (
-  <div>
-    <h2>Образование</h2>
-    <p>Форма будет здесь...</p>
-    <div className="form-actions">
-      <button onClick={onBack}>← Назад</button>
-      <button onClick={onNext}>Далее → Опыт работы</button>
-    </div>
-  </div>
-);
 
 const ExperienceForm: React.FC<{
   data: Experience[];

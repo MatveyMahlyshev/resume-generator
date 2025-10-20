@@ -91,7 +91,6 @@ header p {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px;
-  margin-right: 5%;
   overflow: visible;
 }
 
@@ -176,9 +175,21 @@ button:disabled {
   background: #28a745;
   padding: 15px 30px;
   font-size: 1.1rem;
+  border-radius: 30px;
+  
+}
+.back-btn {
+  background: #28a745;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  border-radius: 30px;
 }
 
 .next-btn:hover {
+  background: #218838;
+}
+
+.back-btn:hover {
   background: #218838;
 }
 
@@ -188,7 +199,7 @@ button:disabled {
   text-align: center;
   display: flex;
   gap: 15px;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 .form-note {
@@ -199,79 +210,6 @@ button:disabled {
   font-style: italic;
 }
 
-/* Стили для предпросмотра резюме */
-.resume-preview {
-  text-align: left;
-  background: white;
-  padding: 0;
-}
-
-.preview-section {
-  margin-bottom: 25px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.preview-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.preview-name {
-  color: #2c3e50;
-  font-size: 28px;
-  margin-bottom: 15px;
-  border-bottom: 3px solid #007bff;
-  padding-bottom: 15px;
-  font-weight: 700;
-}
-
-.preview-contacts p {
-  margin: 8px 0;
-  color: #6c757d;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.preview-section h4 {
-  color: #495057;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.preview-item {
-  margin-bottom: 15px;
-  padding: 18px;
-  background: #f8f9fa;
-  border-radius: 10px;
-  border-left: 4px solid #007bff;
-  transition: transform 0.2s ease;
-}
-
-.preview-item:hover {
-  transform: translateX(5px);
-}
-
-.preview-item strong {
-  color: #2c3e50;
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1.1rem;
-}
-
-.preview-item p {
-  margin: 5px 0;
-  color: #6c757d;
-  font-size: 14px;
-  line-height: 1.4;
-}
 
 /* Стили для навыков */
 .skills-list {
@@ -291,21 +229,6 @@ button:disabled {
   box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
 }
 
-/* Сообщение для пустого резюме */
-.preview-empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: #6c757d;
-  font-style: italic;
-  background: #f8f9fa;
-  border-radius: 10px;
-  border: 2px dashed #dee2e6;
-}
-
-.preview-empty p {
-  font-size: 1.1rem;
-  margin: 0;
-}
 
 /* Секция сохранения */
 .save-section {
@@ -347,21 +270,6 @@ button:disabled {
     gap: 20px;
   }
   
-  .progress-bar {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .progress-bar::before {
-    display: none;
-  }
-  
-  .step {
-    min-width: 200px;
-    text-align: center;
-  }
-  
   /* ИСПРАВЛЕННЫЙ БЛОК */
   .form-row {
     grid-template-columns: 1fr;
@@ -375,22 +283,16 @@ button:disabled {
   }
   
   .form-actions {
-    flex-direction: column;
+    /* flex-direction:column; */
     align-items: center;
+    justify-content: center;
+    
   }
   
-  .form-actions button {
-    width: 100%;
-    max-width: 200px;
-  }
+  /* .form-actions button {
+    /* width: 100%; */
+    /* max-width: 200px; */
   
-  .preview-name {
-    font-size: 24px;
-  }
-  
-  .preview-item {
-    padding: 15px;
-  }
   
   .skills-list {
     gap: 8px;
@@ -401,6 +303,15 @@ button:disabled {
     padding: 6px 12px;
   }
 }
+@media (max-width: 290px) {
+  .form-actions {
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    
+  }
+}
+
 
 /* Анимации */
 @keyframes fadeIn {
@@ -414,7 +325,7 @@ button:disabled {
   }
 }
 
-.form-section, .preview-section {
+.form-section {
   animation: fadeIn 0.5s ease-out;
 }
 
