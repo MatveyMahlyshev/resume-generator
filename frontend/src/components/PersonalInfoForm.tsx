@@ -29,19 +29,6 @@ const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
   return (
     <form onSubmit={handleSubmit} className="personal-info-form">
       <h2>Личная информация</h2>
-      
-      <div className="form-group">
-        <label htmlFor="firstName">Имя *</label>
-        <input
-          id="firstName"
-          type="text"
-          value={data.firstName}
-          onChange={(e) => handleChange('firstName', e.target.value)}
-          placeholder="Введите ваше имя"
-          required
-        />
-      </div>
-
       <div className="form-group">
         <label htmlFor="lastName">Фамилия *</label>
         <input
@@ -49,7 +36,18 @@ const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
           type="text"
           value={data.lastName}
           onChange={(e) => handleChange('lastName', e.target.value)}
-          placeholder="Введите вашу фамилию"
+          placeholder="Иванов"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="firstName">Имя *</label>
+        <input
+          id="firstName"
+          type="text"
+          value={data.firstName}
+          onChange={(e) => handleChange('firstName', e.target.value)}
+          placeholder="Иван"
           required
         />
       </div>
@@ -61,7 +59,7 @@ const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
           type="text"
           value={data.patronymic}
           onChange={(e) => handleChange('patronymic', e.target.value)}
-          placeholder="Введите ваше отчество"
+          placeholder="Иванович"
         />
       </div>
 
@@ -127,13 +125,13 @@ const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
       </div>
 
       <div className="form-group">
-        <label htmlFor="socialNetworks">Социальные сети</label>
+        <label htmlFor="socialNetworks">Ссылка для связи</label>
         <input
           id="socialNetworks"
           type="text"
           value={data.socialNetworks}
           onChange={(e) => handleChange('socialNetworks', e.target.value)}
-          placeholder="Ссылки на LinkedIn, VK, GitHub и т.д."
+          placeholder="https://t.me/mahlyshev"
         />
       </div>
 

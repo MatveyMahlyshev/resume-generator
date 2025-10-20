@@ -55,7 +55,6 @@ function App() {
 
 
       <div className="container">
-        {/* Левая часть - Форма */}
         
         <div className="form-section">
           <h1>Создатель резюме</h1>
