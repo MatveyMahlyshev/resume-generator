@@ -125,7 +125,7 @@ input[type="date"] {
 
 select {
   background: white;
-  cursor: pointer;
+  cursor:crosshair;
   border-radius: 30px;
 }
 
@@ -281,6 +281,9 @@ button:disabled {
   input, select, textarea {
     font-size: 16px;
   }
+  input {
+    border-radius: 20px;
+  }
   
   .form-actions {
     /* flex-direction:column; */
@@ -288,12 +291,6 @@ button:disabled {
     justify-content: center;
     
   }
-  
-  /* .form-actions button {
-    /* width: 100%; */
-    /* max-width: 200px; */
-  
-  
   .skills-list {
     gap: 8px;
   }

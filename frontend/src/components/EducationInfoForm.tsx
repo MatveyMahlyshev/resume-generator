@@ -89,8 +89,8 @@ const EducationInfoForm: React.FC<Props> = ({data, onUpdate, onNext, onBack}) =>
             </div>
             </div>
             <div className="form-actions">
-                <button onClick={onBack} className="back-btn">Назад</button>
-                <button onClick={onNext} className="next-btn">Далее</button>
+                <button type="button" onClick={onBack} className="back-btn">Назад</button>
+                <button type="button" onClick={onNext} className="next-btn">Далее</button>
             </div>
             <div className="form-note">
                 <p>* - обязательные для заполнения поля</p>
