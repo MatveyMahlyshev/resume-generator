@@ -1,14 +1,9 @@
 // src/components/PersonalInfoForm.tsx
 import React from 'react';
-import { PersonalInfo } from '../types/resume';
+import { PersonalInfo, PropsNext} from '../types/resume';
 
-interface Props {
-  data: PersonalInfo;
-  onUpdate: (data: PersonalInfo) => void;
-  onNext: () => void;
-}
 
-const PersonalInfoForm: React.FC<Props> = ({ data, onUpdate, onNext }) => {
+const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, onNext }) => {
   const handleChange = (field: keyof PersonalInfo, value: string) => {
     onUpdate({
       ...data,

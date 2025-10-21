@@ -1,14 +1,8 @@
 import React from "react";
-import { Education } from "../types/resume";
+import { Education, PropsMid} from "../types/resume";
 
-interface Props {
-    data: Education;
-    onUpdate: (data: Education) => void;
-    onNext: () => void;
-    onBack: () => void;
-}
 
-const EducationInfoForm: React.FC<Props> = ({data, onUpdate, onNext, onBack}) => {
+const EducationInfoForm: React.FC<PropsMid<Education>> = ({data, onUpdate, onNext, onBack}) => {
     const handleChange = (field: keyof Education, value: string) => {
         onUpdate({
             ...data,
