@@ -1,33 +1,12 @@
 // src/App.tsx
 import React, { useState } from 'react';
 import './App.css';
-import { ResumeData, PersonalInfo, Education, Experience } from './types/resume';
+import { ResumeData, PersonalInfo, Education, Experience, initialResumeData } from './types/resume';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import EducationInfoForm from './components/EducationInfoForm';
+import ExperienceInfoForm from './components/ExperienceInfoForm';
 // Начальное состояние резюме
-const initialResumeData: ResumeData = {
-  personalInfo: {
-    firstName: "",
-    lastName: "",
-    patronymic: "",
-    email: "",
-    phoneNumber: "",
-    socialNetworks: "",
-    dateOfBirth: "",
-    sex: "",
-    citizenship: ""
-  },
-  education: {
-    institution: "",
-    specialty: "",
-    degree: "",
-    yearOfBeginning: "",
-    yearOfEnding: "",
-  },
-  experience: [], 
-  about: "",
-  skills: []
-};
+
 
 function App() {
   // Состояние резюме
@@ -61,7 +40,7 @@ function App() {
       <div className="container">
         <div className="form-section">
           <h1>Создатель резюме</h1>
-          {currentStep === 1 && (
+          {/* {currentStep === 1 && (
             <PersonalInfoForm 
               data={resumeData.personalInfo}
               onUpdate={(data: PersonalInfo) => updateResumeData({ personalInfo: data })}
@@ -76,12 +55,12 @@ function App() {
               onNext={() => setCurrentStep(3)}
               onBack={() => setCurrentStep(1)}
             />
-          )}
+          )} */}
 
-          {currentStep === 3 && (
-            <ExperienceForm 
+          {currentStep === 1 && (
+            <ExperienceInfoForm 
               data={resumeData.experience}
-              onUpdate={(data: Experience[]) => updateResumeData({ experience: data })}
+              onUpdate={(data: Experience) => updateResumeData({ experience: data })}
               onNext={() => setCurrentStep(4)}
               onBack={() => setCurrentStep(2)}
             />
@@ -110,23 +89,6 @@ function App() {
     </div>
   );
 }
-
-
-const ExperienceForm: React.FC<{
-  data: Experience[];
-  onUpdate: (data: Experience[]) => void;
-  onNext: () => void;
-  onBack: () => void;
-}> = ({ onNext, onBack }) => (
-  <div>
-    <h2>Опыт работы</h2>
-    <p>Форма будет здесь...</p>
-    <div className="form-actions">
-      <button onClick={onBack}>← Назад</button>
-      <button onClick={onNext}>Далее → О себе</button>
-    </div>
-  </div>
-);
 
 const AboutForm: React.FC<{
   data: string;

@@ -87,6 +87,15 @@ header p {
   margin-bottom: 20px;
 }
 
+.form-group-description {
+  margin-bottom: 20px;
+}
+
+.form-group-description input{
+  height: 100px;
+}
+
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -20,7 +20,7 @@ export interface Education {
 }
 
 export interface Experience {
-  id: string;
+  // id: string;
   company: string;
   position: string;
   startDate: string;
@@ -32,7 +32,7 @@ export interface Experience {
 export interface ResumeData {
     personalInfo: PersonalInfo;
     education: Education;
-    experience: Experience[];
+    experience: Experience;
     about: string,
     skills: string[];
 }
@@ -52,5 +52,35 @@ export interface PropsBack<Type> extends Props<Type>{
 }
 
 export interface PropsMid<Type> extends PropsNext<Type>, PropsBack<Type>{
-  
+
 } 
+
+export const initialResumeData: ResumeData = {
+  personalInfo: {
+    firstName: "",
+    lastName: "",
+    patronymic: "",
+    email: "",
+    phoneNumber: "",
+    socialNetworks: "",
+    dateOfBirth: "",
+    sex: "",
+    citizenship: ""
+  },
+  education: {
+    institution: "",
+    specialty: "",
+    degree: "",
+    yearOfBeginning: "",
+    yearOfEnding: "",
+  },
+  experience: {
+    company: "",
+    position: "",
+    startDate: "",
+    endDate: "",
+    description:"",
+  }, 
+  about: "",
+  skills: []
+};

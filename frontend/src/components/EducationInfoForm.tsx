@@ -15,12 +15,6 @@ const EducationInfoForm: React.FC<PropsMid<Education>> = ({data, onUpdate, onNex
         e.preventDefault();
         onNext();
     };
-//   institution: string;
-//   specialty: string;
-//   degree: string;
-//   yearOfBegining: string;
-//   yearOfEnding: string
-
     return (
         <form onSubmit={handleSubmit} className="personal-info-form">
             <h2>Образование</h2>
