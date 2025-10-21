@@ -1,20 +1,20 @@
 // src/App.tsx
 import React, { useState } from 'react';
 import './App.css';
-import { ResumeData, PersonalInfo, Education, Experience, initialResumeData } from './types/resume';
+import { initialResumeData } from './types/resume';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import EducationInfoForm from './components/EducationInfoForm';
 import ExperienceInfoForm from './components/ExperienceInfoForm';
-// Начальное состояние резюме
+import { ResumeData, PersonalInfo, Education, Experience, createEmptyEducation } from './types';
+
+
 
 
 function App() {
-  // Состояние резюме
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
-  // Текущий этап формы
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  // Функция для обновления данных
+
   const updateResumeData = (newData: Partial<ResumeData>) => {
     setResumeData(prev => ({
       ...prev,
@@ -22,11 +22,9 @@ function App() {
     }));
   };
 
-  // Функция для отправки на сервер
   const saveResume = async () => {
     try {
       console.log('Отправляем данные:', resumeData);
-      // Здесь будет реальный запрос на сервер
       alert('Резюме успешно сохранено!');
     } catch (error) {
       alert('Ошибка при сохранении резюме');
@@ -39,8 +37,8 @@ function App() {
       </header>
       <div className="container">
         <div className="form-section">
-          <h1>Создатель резюме</h1>
-          {/* {currentStep === 1 && (
+          <h1>Генератор резюме</h1>
+          {currentStep === 1 && (
             <PersonalInfoForm 
               data={resumeData.personalInfo}
               onUpdate={(data: PersonalInfo) => updateResumeData({ personalInfo: data })}
@@ -51,13 +49,13 @@ function App() {
           {currentStep === 2 && (
             <EducationInfoForm 
               data={resumeData.education}
-              onUpdate={(data: Education) => updateResumeData({ education: data })}
+              onUpdate={(data: Education[]) => updateResumeData({ education: data })}
               onNext={() => setCurrentStep(3)}
               onBack={() => setCurrentStep(1)}
             />
-          )} */}
+          )}
 
-          {currentStep === 1 && (
+          {currentStep === 3 && (
             <ExperienceInfoForm 
               data={resumeData.experience}
               onUpdate={(data: Experience) => updateResumeData({ experience: data })}

@@ -1,6 +1,7 @@
 // src/components/PersonalInfoForm.tsx
 import React from 'react';
-import { PersonalInfo, PropsNext} from '../types/resume';
+import { PersonalInfo } from '../types';
+import { PropsNext } from '../types';
 
 
 const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, onNext }) => {

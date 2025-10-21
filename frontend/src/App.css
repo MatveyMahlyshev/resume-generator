@@ -10,7 +10,21 @@
   min-height: 100vh;
   /* background: #ffffff; */
 }
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  
+}
+.title h2 {
+  color: #10522c;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #10522c;
+  padding-bottom: 10px;
+  font-size: 1.5rem;
+  width: 100%;
 
+}
 header {
   margin-bottom: 30px;
 }
@@ -25,27 +39,6 @@ h1 {
 header p {
   color: #6c757d;
   font-size: 1.1rem;
-}
-
-
-.step {
-  padding: 12px 20px;
-  background: white;
-  border: 2px solid #e9ecef;
-  border-radius: 25px;
-  position: relative;
-  z-index: 2;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  font-size: 0.9rem;
-  min-width: 120px;
-}
-
-.step.active {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
 /* Основной контейнер */
@@ -211,6 +204,11 @@ button:disabled {
   justify-content: flex-end;
 }
 
+.add-btn{
+  margin-right: auto;
+  background-color: #ec5c38;
+}
+
 .form-note {
   margin-top: 20px;
   text-align: center;
@@ -309,12 +307,15 @@ button:disabled {
     padding: 6px 12px;
   }
 }
-@media (max-width: 290px) {
+@media (max-width: 450px) {
   .form-actions {
     flex-direction:column;
     align-items: center;
     justify-content: center;
     
+  }
+  .add-btn {
+    margin: auto;
   }
 }
 
@@ -356,16 +357,16 @@ select option:checked {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #ffffff;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: #95dab4;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: #0f5501;
 }
 

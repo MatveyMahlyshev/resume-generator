@@ -1,6 +1,6 @@
 import React from "react";
-import { Experience, PropsMid} from "../types/resume";
-
+import { Experience } from "../types";
+import { PropsMid } from "../types/props";
 
 const ExperienceInfoForm: React.FC<PropsMid<Experience>> = ({data, onUpdate, onNext, onBack}) => {
     const handleChange = (field: keyof Experience, value: string) => {
