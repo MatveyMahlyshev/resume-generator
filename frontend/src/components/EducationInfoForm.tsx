@@ -41,6 +41,7 @@ const EducationInfoForm: React.FC<PropsMid<Education[]>> = ({ data, onUpdate, on
               onChange={e => handleEducationChange(education.id, 'institution', e.target.value)}
               placeholder='Место обучения'
               required
+              minLength={3}
             />
           </div>
 
@@ -53,6 +54,7 @@ const EducationInfoForm: React.FC<PropsMid<Education[]>> = ({ data, onUpdate, on
               onChange={e => handleEducationChange(education.id, 'specialty', e.target.value)}
               placeholder='Название специальности'
               required
+              minLength={5}
             />
           </div>
 
@@ -65,6 +67,7 @@ const EducationInfoForm: React.FC<PropsMid<Education[]>> = ({ data, onUpdate, on
               onChange={e => handleEducationChange(education.id, 'degree', e.target.value)}
               placeholder='Академическая степень'
               required
+              minLength={6}
             />
           </div>
 
@@ -78,8 +81,9 @@ const EducationInfoForm: React.FC<PropsMid<Education[]>> = ({ data, onUpdate, on
                 onChange={e =>
                   handleEducationChange(education.id, 'yearOfBeginning', e.target.value)
                 }
-                placeholder='Год начала'
-                required
+                placeholder='2021'
+                required         
+                minLength={4}       
               />
             </div>
             <div className='form-group'>
@@ -89,8 +93,9 @@ const EducationInfoForm: React.FC<PropsMid<Education[]>> = ({ data, onUpdate, on
                 type='text'
                 value={education.yearOfEnding}
                 onChange={e => handleEducationChange(education.id, 'yearOfEnding', e.target.value)}
-                placeholder='Год окончания'
+                placeholder='2025'
                 required
+                minLength={4}
               />
             </div>
           </div>

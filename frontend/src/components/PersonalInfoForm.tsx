@@ -1,10 +1,48 @@
 // src/components/PersonalInfoForm.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { PersonalInfo } from '../types';
 import { PropsNext } from '../types';
 
 const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, onNext }) => {
+
+  const [errors, setErrors] = useState<{[key: string]: string | boolean}>({});
+
+  const validateUrl = (url: string): string | null => {
+    if (!url.trim()) return null;
+    
+    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
+    if (!urlRegex.test(url)) {
+        alert("Введите ссылку в формате: https://example.com или example.com, или оставьте поле пустым")
+    }
+    return null;
+};
+
+  const validateDateOfBirth = (dateString: string): boolean | null => {
+    const dateOfBirth = new Date(dateString)
+    const dateNow = new Date()
+
+    if (dateNow.getFullYear() - dateOfBirth.getFullYear() < 16) {
+      alert("Выберите правильную дату Рождения.")
+      return true
+    }
+    return null
+  }
+
+  const validatePhoneNumber = (phoneNumber: string): boolean | null => {
+
+    return null
+  } 
+
+
   const handleChange = (field: keyof PersonalInfo, value: string) => {
+
+    if (errors[field]){
+      setErrors(prev => {
+        const newErrors = {...prev};
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
     onUpdate({
       ...data,
       [field]: value,
@@ -13,12 +51,21 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Проверяем обязательные поля перед переходом
-    if (data.firstName && data.lastName && data.email) {
-      onNext();
-    } else {
-      alert('Пожалуйста, заполните обязательные поля (Имя, Фамилия, Email)');
+
+    const socialError = validateUrl(data.socialNetworks);
+    if (socialError) {
+        setErrors(prev => ({ ...prev, socialNetworks: socialError }));
+        return; 
     }
+    
+    const dateError = validateDateOfBirth(data.dateOfBirth)
+    if (dateError) {
+      setErrors(prev => ({...prev, dateErrors: dateError}));
+      return
+    }
+
+    const phoneNumberError = validatePhoneNumber(data.phoneNumber)
+    onNext()
   };
 
   return (
@@ -33,6 +80,7 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           onChange={e => handleChange('lastName', e.target.value)}
           placeholder='Иванов'
           required
+          minLength={2}
         />
       </div>
       <div className='form-group'>
@@ -44,6 +92,7 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           onChange={e => handleChange('firstName', e.target.value)}
           placeholder='Иван'
           required
+          minLength={2}
         />
       </div>
 
@@ -55,6 +104,8 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           value={data.patronymic}
           onChange={e => handleChange('patronymic', e.target.value)}
           placeholder='Иванович'
+          minLength={2}
+          
         />
       </div>
 
@@ -68,6 +119,7 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
             onChange={e => handleChange('email', e.target.value)}
             placeholder='example@mail.com'
             required
+            minLength={5}
           />
         </div>
 
@@ -78,7 +130,9 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
             type='tel'
             value={data.phoneNumber}
             onChange={e => handleChange('phoneNumber', e.target.value)}
-            placeholder='+7 (999) 999-99-99'
+            placeholder='+71234567890'
+            required
+            minLength={10}
           />
         </div>
       </div>
@@ -91,12 +145,13 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
             type='date'
             value={data.dateOfBirth}
             onChange={e => handleChange('dateOfBirth', e.target.value)}
+            required
           />
         </div>
 
         <div className='form-group'>
           <label htmlFor='sex'>Пол</label>
-          <select id='sex' value={data.sex} onChange={e => handleChange('sex', e.target.value)}>
+          <select id='sex' value={data.sex} required onChange={e => handleChange('sex', e.target.value)}>
             <option value=''>Выберите пол</option>
             <option value='male'>Мужской</option>
             <option value='female'>Женский</option>
@@ -112,6 +167,7 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           value={data.citizenship}
           onChange={e => handleChange('citizenship', e.target.value)}
           placeholder='Российская Федерация'
+          required
         />
       </div>
 
@@ -122,7 +178,8 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           type='text'
           value={data.socialNetworks}
           onChange={e => handleChange('socialNetworks', e.target.value)}
-          placeholder='https://t.me/mahlyshev'
+          placeholder="https://example.com или example.com"
+          className={errors.socialNetworks ? 'error' : ''}
         />
       </div>
 
