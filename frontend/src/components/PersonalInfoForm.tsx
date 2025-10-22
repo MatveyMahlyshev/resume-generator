@@ -7,6 +7,16 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
 
   const [errors, setErrors] = useState<{[key: string]: boolean | null}>({});
 
+  const toUpper = (word: string): string => {
+    if (word.length > 1) {
+      return word[0].toUpperCase() + word.slice(1).toLowerCase()
+    } else if (word.length === 1) {
+      return word.toUpperCase()
+    }
+    return ""
+    
+  }
+
   const validateUrl = (url: string): boolean | null => {
     if (!url.trim()) return null;
     
@@ -36,7 +46,6 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
       alert("Введите номер телефона в другом формате.")
       return true
     }
-    // +79672775456 = 12 79672775456 = 11 89672775456 = 11 9672775456 = 10
 
     if (phoneNumber.length === 11) {
       data.phoneNumber = "+7" + phoneNumber.slice(1)
@@ -45,6 +54,37 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
     }
     return null
   } 
+
+  const validateEmail = (email: string): boolean | null => {
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
+
+    if (!emailRegex.test(email)) {
+      alert("Введите электронную почту правильно.")
+      return true
+    }
+
+    return null
+  }
+
+  const validateName = (name: string, type: string): boolean | null => {
+    name = toUpper(name)
+    const nameRegex = /^[А-Яа-яЁё]{2,50}$/;
+
+    if (!nameRegex.test(name)) {
+      alert("Фамилия, имя или отчество введены некорректно.")
+      return true;
+    }
+
+    if (type === "lastname") {
+      data.lastName = name
+    } else if (type === "firstname") {
+      data.firstName = name
+    }else {
+      data.patronymic = name
+    }
+        
+    return null;
+    } 
 
 
   const handleChange = (field: keyof PersonalInfo, value: string) => {
@@ -65,23 +105,46 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const phoneNumberError = validatePhoneNumber(data.phoneNumber)
+    const lastNameError = validateName(data.lastName, "lastname")
+    if (lastNameError) {
+      setErrors(prev => ({...prev, lastNameErrors: lastNameError}))
+      return;
+    }
+    const firstNameError = validateName(data.firstName, "firstname")
 
-    if ( phoneNumberError) {
-      setErrors(prev => ({...prev, phoneNumberErrors: phoneNumberError}))
+    if (lastNameError) {
+      setErrors(prev => ({...prev, firstNameErrors: firstNameError}))
+      return;
+    }
+    const patronymicError = validateName(data.patronymic, "patronymic")
+
+    if (patronymicError) {
+      setErrors(prev => ({...prev, patronymicErrors: patronymicError}))
       return;
     }
     
-    const dateError = validateDateOfBirth(data.dateOfBirth)
+    const emailError = validateEmail(data.email);
+    if (emailError) {
+      setErrors(prev => ({...prev, emailErrors: emailError}))
+      return;
+    }
+
+    const phoneNumberError = validatePhoneNumber(data.phoneNumber);
+    if ( phoneNumberError) {
+      setErrors(prev => ({...prev, phoneNumberErrors: phoneNumberError}))
+      return;
+    };
+    
+    const dateError = validateDateOfBirth(data.dateOfBirth);
     if (dateError) {
       setErrors(prev => ({...prev, dateErrors: dateError}));
       return;
-    }
+    };
     const socialError = validateUrl(data.socialNetworks);
     if (socialError) {
         setErrors(prev => ({ ...prev, socialNetworks: socialError }));
         return; 
-    }
+    };
     onNext()
   };
 
