@@ -82,8 +82,8 @@ const EducationInfoForm: React.FC<PropsMid<Education[]>> = ({ data, onUpdate, on
                   handleEducationChange(education.id, 'yearOfBeginning', e.target.value)
                 }
                 placeholder='2021'
-                required         
-                minLength={4}       
+                required
+                minLength={4}
               />
             </div>
             <div className='form-group'>

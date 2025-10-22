@@ -2,96 +2,21 @@
 import React, { useState } from 'react';
 import { PersonalInfo } from '../types';
 import { PropsNext } from '../types';
+import {
+  validateEmail,
+  validateDateOfBirth,
+  validateName,
+  validatePhoneNumber,
+  validateUrl,
+} from '../validators/personalInfoValidators';
 
 const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, onNext }) => {
-
-  const [errors, setErrors] = useState<{[key: string]: boolean | null}>({});
-
-  const toUpper = (word: string): string => {
-    if (word.length > 1) {
-      return word[0].toUpperCase() + word.slice(1).toLowerCase()
-    } else if (word.length === 1) {
-      return word.toUpperCase()
-    }
-    return ""
-    
-  }
-
-  const validateUrl = (url: string): boolean | null => {
-    if (!url.trim()) return null;
-    
-    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
-    if (!urlRegex.test(url)) {
-        alert("Введите ссылку в формате: https://example.com или example.com, или оставьте поле пустым")
-        return true
-    }
-    return null;
-};
-
-  const validateDateOfBirth = (dateString: string): boolean | null => {
-    const dateOfBirth = new Date(dateString)
-    const dateNow = new Date()
-
-    if (dateNow.getFullYear() - dateOfBirth.getFullYear() < 16) {
-      alert("Выберите правильную дату Рождения.")
-      return true
-    }
-    return null
-  }
-
-  const validatePhoneNumber = (phoneNumber: string): boolean | null => {
-
-    const phoneNumberTemplate = /^(\+?7|8)?(\d{10})$/
-    if (!phoneNumberTemplate.test(phoneNumber)){
-      alert("Введите номер телефона в другом формате.")
-      return true
-    }
-
-    if (phoneNumber.length === 11) {
-      data.phoneNumber = "+7" + phoneNumber.slice(1)
-    } else if (phoneNumber.length === 10) {
-      data.phoneNumber = "+7" + phoneNumber
-    }
-    return null
-  } 
-
-  const validateEmail = (email: string): boolean | null => {
-    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/
-
-    if (!emailRegex.test(email)) {
-      alert("Введите электронную почту правильно.")
-      return true
-    }
-
-    return null
-  }
-
-  const validateName = (name: string, type: string): boolean | null => {
-    name = toUpper(name)
-    const nameRegex = /^[А-Яа-яЁё]{2,50}$/;
-
-    if (!nameRegex.test(name)) {
-      alert("Фамилия, имя или отчество введены некорректно.")
-      return true;
-    }
-
-    if (type === "lastname") {
-      data.lastName = name
-    } else if (type === "firstname") {
-      data.firstName = name
-    }else {
-      data.patronymic = name
-    }
-        
-    return null;
-    } 
-
+  const [errors, setErrors] = useState<{ [key: string]: boolean | null }>({});
 
   const handleChange = (field: keyof PersonalInfo, value: string) => {
-
-    if (errors[field]){
+    if (errors[field]) {
       setErrors(prev => {
-        const newErrors = {...prev};
+        const newErrors = { ...prev };
         delete newErrors[field];
         return newErrors;
       });
@@ -105,47 +30,47 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const lastNameError = validateName(data.lastName, "lastname")
+    const lastNameError = validateName(data.lastName, 'lastname', data);
     if (lastNameError) {
-      setErrors(prev => ({...prev, lastNameErrors: lastNameError}))
+      setErrors(prev => ({ ...prev, lastNameErrors: lastNameError }));
       return;
     }
-    const firstNameError = validateName(data.firstName, "firstname")
+    const firstNameError = validateName(data.firstName, 'firstname', data);
 
     if (lastNameError) {
-      setErrors(prev => ({...prev, firstNameErrors: firstNameError}))
+      setErrors(prev => ({ ...prev, firstNameErrors: firstNameError }));
       return;
     }
-    const patronymicError = validateName(data.patronymic, "patronymic")
+    const patronymicError = validateName(data.patronymic, 'patronymic', data);
 
     if (patronymicError) {
-      setErrors(prev => ({...prev, patronymicErrors: patronymicError}))
-      return;
-    }
-    
-    const emailError = validateEmail(data.email);
-    if (emailError) {
-      setErrors(prev => ({...prev, emailErrors: emailError}))
+      setErrors(prev => ({ ...prev, patronymicErrors: patronymicError }));
       return;
     }
 
-    const phoneNumberError = validatePhoneNumber(data.phoneNumber);
-    if ( phoneNumberError) {
-      setErrors(prev => ({...prev, phoneNumberErrors: phoneNumberError}))
+    const emailError = validateEmail(data.email);
+    if (emailError) {
+      setErrors(prev => ({ ...prev, emailErrors: emailError }));
       return;
-    };
-    
+    }
+
+    const phoneNumberError = validatePhoneNumber(data.phoneNumber, data);
+    if (phoneNumberError) {
+      setErrors(prev => ({ ...prev, phoneNumberErrors: phoneNumberError }));
+      return;
+    }
+
     const dateError = validateDateOfBirth(data.dateOfBirth);
     if (dateError) {
-      setErrors(prev => ({...prev, dateErrors: dateError}));
+      setErrors(prev => ({ ...prev, dateErrors: dateError }));
       return;
-    };
+    }
     const socialError = validateUrl(data.socialNetworks);
     if (socialError) {
-        setErrors(prev => ({ ...prev, socialNetworks: socialError }));
-        return; 
-    };
-    onNext()
+      setErrors(prev => ({ ...prev, socialNetworks: socialError }));
+      return;
+    }
+    onNext();
   };
 
   return (
@@ -185,7 +110,6 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           onChange={e => handleChange('patronymic', e.target.value)}
           placeholder='Иванович'
           minLength={2}
-          
         />
       </div>
 
@@ -232,7 +156,12 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
 
         <div className='form-group'>
           <label htmlFor='sex'>Пол</label>
-          <select id='sex' value={data.sex} required onChange={e => handleChange('sex', e.target.value)}>
+          <select
+            id='sex'
+            value={data.sex}
+            required
+            onChange={e => handleChange('sex', e.target.value)}
+          >
             <option value=''>Выберите пол</option>
             <option value='male'>Мужской</option>
             <option value='female'>Женский</option>
@@ -259,7 +188,7 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
           type='text'
           value={data.socialNetworks}
           onChange={e => handleChange('socialNetworks', e.target.value)}
-          placeholder="https://example.com или example.com"
+          placeholder='https://example.com или example.com'
           className={errors.socialNetworks ? 'error' : ''}
         />
       </div>
