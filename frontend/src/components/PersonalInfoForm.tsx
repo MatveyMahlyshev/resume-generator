@@ -5,14 +5,15 @@ import { PropsNext } from '../types';
 
 const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, onNext }) => {
 
-  const [errors, setErrors] = useState<{[key: string]: string | boolean}>({});
+  const [errors, setErrors] = useState<{[key: string]: boolean | null}>({});
 
-  const validateUrl = (url: string): string | null => {
+  const validateUrl = (url: string): boolean | null => {
     if (!url.trim()) return null;
     
-    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/\S*)?$/;
+    const urlRegex = /^(https?:\/\/)?([a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
     if (!urlRegex.test(url)) {
         alert("Введите ссылку в формате: https://example.com или example.com, или оставьте поле пустым")
+        return true
     }
     return null;
 };
@@ -30,6 +31,18 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
 
   const validatePhoneNumber = (phoneNumber: string): boolean | null => {
 
+    const phoneNumberTemplate = /^(\+?7|8)?(\d{10})$/
+    if (!phoneNumberTemplate.test(phoneNumber)){
+      alert("Введите номер телефона в другом формате.")
+      return true
+    }
+    // +79672775456 = 12 79672775456 = 11 89672775456 = 11 9672775456 = 10
+
+    if (phoneNumber.length === 11) {
+      data.phoneNumber = "+7" + phoneNumber.slice(1)
+    } else if (phoneNumber.length === 10) {
+      data.phoneNumber = "+7" + phoneNumber
+    }
     return null
   } 
 
@@ -52,19 +65,23 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const socialError = validateUrl(data.socialNetworks);
-    if (socialError) {
-        setErrors(prev => ({ ...prev, socialNetworks: socialError }));
-        return; 
+    const phoneNumberError = validatePhoneNumber(data.phoneNumber)
+
+    if ( phoneNumberError) {
+      setErrors(prev => ({...prev, phoneNumberErrors: phoneNumberError}))
+      return;
     }
     
     const dateError = validateDateOfBirth(data.dateOfBirth)
     if (dateError) {
       setErrors(prev => ({...prev, dateErrors: dateError}));
-      return
+      return;
     }
-
-    const phoneNumberError = validatePhoneNumber(data.phoneNumber)
+    const socialError = validateUrl(data.socialNetworks);
+    if (socialError) {
+        setErrors(prev => ({ ...prev, socialNetworks: socialError }));
+        return; 
+    }
     onNext()
   };
 
@@ -133,6 +150,7 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
             placeholder='+71234567890'
             required
             minLength={10}
+            maxLength={12}
           />
         </div>
       </div>
