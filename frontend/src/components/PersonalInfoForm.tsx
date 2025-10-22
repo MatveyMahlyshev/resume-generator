@@ -3,12 +3,11 @@ import React from 'react';
 import { PersonalInfo } from '../types';
 import { PropsNext } from '../types';
 
-
 const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, onNext }) => {
   const handleChange = (field: keyof PersonalInfo, value: string) => {
     onUpdate({
       ...data,
-      [field]: value
+      [field]: value,
     });
   };
 
@@ -23,121 +22,117 @@ const PersonalInfoForm: React.FC<PropsNext<PersonalInfo>> = ({ data, onUpdate, o
   };
 
   return (
-    <form onSubmit={handleSubmit} className="personal-info-form">
+    <form onSubmit={handleSubmit} className='personal-info-form'>
       <h2>Личная информация</h2>
-      <div className="form-group">
-        <label htmlFor="lastName">Фамилия *</label>
+      <div className='form-group'>
+        <label htmlFor='lastName'>Фамилия *</label>
         <input
-          id="lastName"
-          type="text"
+          id='lastName'
+          type='text'
           value={data.lastName}
-          onChange={(e) => handleChange('lastName', e.target.value)}
-          placeholder="Иванов"
+          onChange={e => handleChange('lastName', e.target.value)}
+          placeholder='Иванов'
           required
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="firstName">Имя *</label>
+      <div className='form-group'>
+        <label htmlFor='firstName'>Имя *</label>
         <input
-          id="firstName"
-          type="text"
+          id='firstName'
+          type='text'
           value={data.firstName}
-          onChange={(e) => handleChange('firstName', e.target.value)}
-          placeholder="Иван"
+          onChange={e => handleChange('firstName', e.target.value)}
+          placeholder='Иван'
           required
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="patronymic">Отчество</label>
+      <div className='form-group'>
+        <label htmlFor='patronymic'>Отчество</label>
         <input
-          id="patronymic"
-          type="text"
+          id='patronymic'
+          type='text'
           value={data.patronymic}
-          onChange={(e) => handleChange('patronymic', e.target.value)}
-          placeholder="Иванович"
+          onChange={e => handleChange('patronymic', e.target.value)}
+          placeholder='Иванович'
         />
       </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="email">Email *</label>
+      <div className='form-row'>
+        <div className='form-group'>
+          <label htmlFor='email'>Email *</label>
           <input
-            id="email"
-            type="email"
+            id='email'
+            type='email'
             value={data.email}
-            onChange={(e) => handleChange('email', e.target.value)}
-            placeholder="example@mail.com"
+            onChange={e => handleChange('email', e.target.value)}
+            placeholder='example@mail.com'
             required
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="phoneNumber">Телефон</label>
+        <div className='form-group'>
+          <label htmlFor='phoneNumber'>Телефон</label>
           <input
-            id="phoneNumber"
-            type="tel"
+            id='phoneNumber'
+            type='tel'
             value={data.phoneNumber}
-            onChange={(e) => handleChange('phoneNumber', e.target.value)}
-            placeholder="+7 (999) 999-99-99"
+            onChange={e => handleChange('phoneNumber', e.target.value)}
+            placeholder='+7 (999) 999-99-99'
           />
         </div>
       </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="dateOfBirth">Дата рождения</label>
+      <div className='form-row'>
+        <div className='form-group'>
+          <label htmlFor='dateOfBirth'>Дата рождения</label>
           <input
-            id="dateOfBirth"
-            type="date"
+            id='dateOfBirth'
+            type='date'
             value={data.dateOfBirth}
-            onChange={(e) => handleChange('dateOfBirth', e.target.value)}
+            onChange={e => handleChange('dateOfBirth', e.target.value)}
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="sex">Пол</label>
-          <select
-            id="sex"
-            value={data.sex}
-            onChange={(e) => handleChange('sex', e.target.value)}
-          >
-            <option value="">Выберите пол</option>
-            <option value="male">Мужской</option>
-            <option value="female">Женский</option>
+        <div className='form-group'>
+          <label htmlFor='sex'>Пол</label>
+          <select id='sex' value={data.sex} onChange={e => handleChange('sex', e.target.value)}>
+            <option value=''>Выберите пол</option>
+            <option value='male'>Мужской</option>
+            <option value='female'>Женский</option>
           </select>
         </div>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="citizenship">Гражданство</label>
+      <div className='form-group'>
+        <label htmlFor='citizenship'>Гражданство</label>
         <input
-          id="citizenship"
-          type="text"
+          id='citizenship'
+          type='text'
           value={data.citizenship}
-          onChange={(e) => handleChange('citizenship', e.target.value)}
-          placeholder="Российская Федерация"
+          onChange={e => handleChange('citizenship', e.target.value)}
+          placeholder='Российская Федерация'
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="socialNetworks">Ссылка для связи</label>
+      <div className='form-group'>
+        <label htmlFor='socialNetworks'>Ссылка для связи</label>
         <input
-          id="socialNetworks"
-          type="text"
+          id='socialNetworks'
+          type='text'
           value={data.socialNetworks}
-          onChange={(e) => handleChange('socialNetworks', e.target.value)}
-          placeholder="https://t.me/mahlyshev"
+          onChange={e => handleChange('socialNetworks', e.target.value)}
+          placeholder='https://t.me/mahlyshev'
         />
       </div>
 
-      <div className="form-actions">
-        <button type="submit" className="next-btn">
+      <div className='form-actions'>
+        <button type='submit' className='next-btn'>
           Далее
         </button>
       </div>
 
-      <div className="form-note">
+      <div className='form-note'>
         <p>* - обязательные для заполнения поля</p>
       </div>
     </form>

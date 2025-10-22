@@ -7,18 +7,14 @@ import EducationInfoForm from './components/EducationInfoForm';
 import ExperienceInfoForm from './components/ExperienceInfoForm';
 import { ResumeData, PersonalInfo, Education, Experience, createEmptyEducation } from './types';
 
-
-
-
 function App() {
   const [resumeData, setResumeData] = useState<ResumeData>(initialResumeData);
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-
   const updateResumeData = (newData: Partial<ResumeData>) => {
     setResumeData(prev => ({
       ...prev,
-      ...newData
+      ...newData,
     }));
   };
 
@@ -32,22 +28,21 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header>
-      </header>
-      <div className="container">
-        <div className="form-section">
+    <div className='App'>
+      <header></header>
+      <div className='container'>
+        <div className='form-section'>
           <h1>Генератор резюме</h1>
           {currentStep === 1 && (
-            <PersonalInfoForm 
+            <PersonalInfoForm
               data={resumeData.personalInfo}
               onUpdate={(data: PersonalInfo) => updateResumeData({ personalInfo: data })}
               onNext={() => setCurrentStep(2)}
             />
           )}
-          
+
           {currentStep === 2 && (
-            <EducationInfoForm 
+            <EducationInfoForm
               data={resumeData.education}
               onUpdate={(data: Education[]) => updateResumeData({ education: data })}
               onNext={() => setCurrentStep(3)}
@@ -56,7 +51,7 @@ function App() {
           )}
 
           {currentStep === 3 && (
-            <ExperienceInfoForm 
+            <ExperienceInfoForm
               data={resumeData.experience}
               onUpdate={(data: Experience) => updateResumeData({ experience: data })}
               onNext={() => setCurrentStep(4)}
@@ -65,7 +60,7 @@ function App() {
           )}
 
           {currentStep === 4 && (
-            <AboutForm 
+            <AboutForm
               data={resumeData.about}
               onUpdate={(data: string) => updateResumeData({ about: data })}
               onNext={() => setCurrentStep(5)}
@@ -74,7 +69,7 @@ function App() {
           )}
 
           {currentStep === 5 && (
-            <SkillsForm 
+            <SkillsForm
               data={resumeData.skills}
               onUpdate={(data: string[]) => updateResumeData({ skills: data })}
               onBack={() => setCurrentStep(4)}
@@ -97,7 +92,7 @@ const AboutForm: React.FC<{
   <div>
     <h2>О себе</h2>
     <p>Расскажите о своих целях, увлечениях и сильных сторонах</p>
-    <div className="form-actions">
+    <div className='form-actions'>
       <button onClick={onBack}>← Назад</button>
       <button onClick={onNext}>Далее → Навыки</button>
     </div>
@@ -113,13 +108,13 @@ const SkillsForm: React.FC<{
   <div>
     <h2>Навыки</h2>
     <p>Укажите ваши профессиональные навыки и компетенции</p>
-    <div className="form-actions">
+    <div className='form-actions'>
       <button onClick={onBack}>← Назад</button>
-      <button onClick={onSave} className="save-btn">Сохранить резюме</button>
+      <button onClick={onSave} className='save-btn'>
+        Сохранить резюме
+      </button>
     </div>
   </div>
 );
-
-
 
 export default App;

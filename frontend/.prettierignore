@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+.next
+out
+.coverage
+*.min.js
+package-lock.json
+yarn.lock
+public
+.env
+.env.local
+.DS_Store
